@@ -1,25 +1,44 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import background from "./img/space.png";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      ping: ''
+    }
+  }
+
+  ping = async () => {
+    var response = await fetch(
+      'api/ping',
+      {
+        method: 'get'
+      }
+    );
+
+    var responseJson = await response.json();
+    
+    this.setState({
+      ping: responseJson.val
+    })
+  }
+
+  render() {
+    const pingr = this.state.ping;
+
+    return (
+        <div className='App'>
+        <img src={background} className="App-logo" alt="logo" />
+          <button onClick={this.ping}>Ping</button>
+          <div>
+            <label>{pingr}</label>
+          </div>
+        </div>
+    )
+  }
 }
 
 export default App;
